@@ -5,8 +5,14 @@ import './App.css';
 
 let url = `/api/todo`;
 
+// import * as dotenv from 'dotenv';
+// dotenv.config({ path: '.env.development' });
+
 const cloudEnv = import.meta.env.VITE_CLOUD_ENV;
 const backendEnv = import.meta.env.VITE_BACKEND_URI;
+
+// const cloudEnv ='production';
+// const backendEnv = 'http://localhost:7071/api';
 
 console.log(`CLOUD_ENV = ${cloudEnv}`)
 console.log(`BACKEND_URI = ${backendEnv}`)
@@ -36,11 +42,17 @@ function App() {
         const payload = await response.json();
         const { clientPrincipal } = payload;
 
+        console.log(`clientPrincipal = ${JSON.stringify(clientPrincipal)}`);
+
         if (clientPrincipal) {
           setUser(clientPrincipal);
           userHasAuthenticated(true);
           setUserName(clientPrincipal?.userDetails.toLowerCase().split(' ').map(x => x[0].toUpperCase() + x.slice(1)).join(' '))
           console.log(`clientPrincipal = ${JSON.stringify(clientPrincipal)}`);
+        }
+        else
+        {
+          // console.log(`clientPrincipal = ${JSON.stringify(clientPrincipal)}`);
         }
       }
     }
